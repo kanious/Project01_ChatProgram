@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Packets">
+      <UniqueIdentifier>{c76d1c1b-ed1a-4811-a3cf-19fe0df2e5c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packets\Request">
+      <UniqueIdentifier>{170fc818-8075-45ed-ab29-00621163d4d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packets\Response">
+      <UniqueIdentifier>{6f14297d-0a86-4241-88bf-63ed871c401e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\DLLdefine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\PacketHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\RequestChangeName.h">
+      <Filter>Packets\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\RequestDisconnect.h">
+      <Filter>Packets\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\RequestMessage.h">
+      <Filter>Packets\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Packet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ResponseConnect.h">
+      <Filter>Packets\Response</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ResponseDisconnect.h">
+      <Filter>Packets\Response</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ResponseError.h">
+      <Filter>Packets\Response</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ResponseMessage.h">
+      <Filter>Packets\Response</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\DLLPacketIncludes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ChannelInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\RequestChannel.h">
+      <Filter>Packets\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ResponseChannel.h">
+      <Filter>Packets\Response</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestChangeName.cpp">
+      <Filter>Packets\Request</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestDisconnect.cpp">
+      <Filter>Packets\Request</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestMessage.cpp">
+      <Filter>Packets\Request</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseConnect.cpp">
+      <Filter>Packets\Response</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseDisconnect.cpp">
+      <Filter>Packets\Response</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseError.cpp">
+      <Filter>Packets\Response</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseMessage.cpp">
+      <Filter>Packets\Response</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestChannel.cpp">
+      <Filter>Packets\Request</Filter>
+    </ClCompile>
+    <ClCompile Include="ResponseChannel.cpp">
+      <Filter>Packets\Response</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
