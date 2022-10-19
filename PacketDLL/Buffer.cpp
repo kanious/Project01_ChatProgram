@@ -23,8 +23,8 @@ void Buffer::WriteShort(int16_t value)
 	if (m_writeBuffer >= m_data.size())
 		return;
 
-	m_data[m_writeBuffer] = value;
-	m_data[m_writeBuffer + 1] = value >> 8;
+	m_data[m_writeBuffer + 1] = value;
+	m_data[m_writeBuffer] = value >> 8;
 
 	m_writeBuffer += 2;
 }
@@ -34,8 +34,8 @@ void Buffer::WriteUShort(uint16_t value)
 	if (m_writeBuffer >= m_data.size())
 		return;
 
-	m_data[m_writeBuffer] = value;
-	m_data[m_writeBuffer + 1] = value >> 8;
+	m_data[m_writeBuffer + 1] = value;
+	m_data[m_writeBuffer] = value >> 8;
 
 	m_writeBuffer += 2;
 }
@@ -45,10 +45,10 @@ void Buffer::WriteInt(int32_t value)
 	if (m_writeBuffer >= m_data.size())
 		return;
 
-	m_data[m_writeBuffer] = value;
-	m_data[m_writeBuffer + 1] = value >> 8;
-	m_data[m_writeBuffer + 2] = value >> 16;
-	m_data[m_writeBuffer + 3] = value >> 24;
+	m_data[m_writeBuffer + 3] = value;
+	m_data[m_writeBuffer + 2] = value >> 8;
+	m_data[m_writeBuffer + 1] = value >> 16;
+	m_data[m_writeBuffer] = value >> 24;
 
 	m_writeBuffer += 4;
 }
@@ -58,10 +58,10 @@ void Buffer::WriteUInt(uint32_t value)
 	if (m_writeBuffer >= m_data.size())
 		return;
 
-	m_data[m_writeBuffer] = value;
-	m_data[m_writeBuffer + 1] = value >> 8;
-	m_data[m_writeBuffer + 2] = value >> 16;
-	m_data[m_writeBuffer + 3] = value >> 24;
+	m_data[m_writeBuffer + 3] = value;
+	m_data[m_writeBuffer + 2] = value >> 8;
+	m_data[m_writeBuffer + 1] = value >> 16;
+	m_data[m_writeBuffer] = value >> 24;
 
 	m_writeBuffer += 4;
 }
@@ -85,8 +85,8 @@ int16_t Buffer::ReadShort()
 		return 0;
 
 	int16_t value = 0;
-	value = m_data[m_readBuffer];
-	value |= m_data[m_readBuffer + 1] << 8;
+	value = m_data[m_readBuffer + 1];
+	value |= m_data[m_readBuffer] << 8;
 
 	m_readBuffer += 2;
 
@@ -99,8 +99,8 @@ uint16_t Buffer::ReadUShort()
 		return 0;
 
 	uint16_t value = 0;
-	value = m_data[m_readBuffer];
-	value |= m_data[m_readBuffer + 1] << 8;
+	value = m_data[m_readBuffer + 1];
+	value |= m_data[m_readBuffer] << 8;
 
 	m_readBuffer += 2;
 
@@ -113,10 +113,10 @@ int32_t Buffer::ReadInt()
 		return 0;
 
 	int32_t value = 0;
-	value = m_data[m_readBuffer];
-	value |= m_data[m_readBuffer + 1] << 8;
-	value |= m_data[m_readBuffer + 2] << 16;
-	value |= m_data[m_readBuffer + 3] << 24;
+	value = m_data[m_readBuffer + 3];
+	value |= m_data[m_readBuffer + 2] << 8;
+	value |= m_data[m_readBuffer + 1] << 16;
+	value |= m_data[m_readBuffer] << 24;
 
 	m_readBuffer += 4;
 
@@ -129,10 +129,10 @@ uint32_t Buffer::ReadUInt()
 		return 0;
 
 	uint32_t value = 0;
-	value = m_data[m_readBuffer];
-	value |= m_data[m_readBuffer + 1] << 8;
-	value |= m_data[m_readBuffer + 2] << 16;
-	value |= m_data[m_readBuffer + 3] << 24;
+	value = m_data[m_readBuffer + 3];
+	value |= m_data[m_readBuffer + 2] << 8;
+	value |= m_data[m_readBuffer + 1] << 16;
+	value |= m_data[m_readBuffer] << 24;
 
 	m_readBuffer += 4;
 

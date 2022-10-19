@@ -120,20 +120,20 @@ void ClientRecvManager::ResetMessageStatus()
 uint32_t ClientRecvManager::ReadLengthInfo()
 {
 	uint32_t value = 0;
-	value = m_data[0];
-	value |= m_data[1] << 8;
-	value |= m_data[2] << 16;
-	value |= m_data[3] << 24;
+	value = m_data[3];
+	value |= m_data[2] << 8;
+	value |= m_data[1] << 16;
+	value |= m_data[0] << 24;
 	return value;
 }
 
 uint32_t ClientRecvManager::ReadMessageId()
 {
 	uint32_t value = 0;
-	value = m_data[4];
-	value |= m_data[5] << 8;
-	value |= m_data[6] << 16;
-	value |= m_data[7] << 24;
+	value = m_data[7];
+	value |= m_data[6] << 8;
+	value |= m_data[5] << 16;
+	value |= m_data[4] << 24;
 	return value;
 }
 
