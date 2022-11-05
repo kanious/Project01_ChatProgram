@@ -10,6 +10,7 @@
 #include <vector>
 
 #define DEFAULT_PORT "12345"
+#define AUTH_PORT "54321"
 #define CHUNK_SIZE 128
 
 

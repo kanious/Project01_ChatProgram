@@ -22,6 +22,9 @@
     <Filter Include="Packets\Response">
       <UniqueIdentifier>{6f14297d-0a86-4241-88bf-63ed871c401e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packets\proto">
+      <UniqueIdentifier>{37e608b2-b21b-4ed9-8d45-98c31f9674cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="Headers\ResponseChannel.h">
       <Filter>Packets\Response</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\RequestCreateAccount.pb.h">
+      <Filter>Packets\proto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -118,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="ResponseChannel.cpp">
       <Filter>Packets\Response</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestCreateAccount.pb.cc">
+      <Filter>Packets\proto</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

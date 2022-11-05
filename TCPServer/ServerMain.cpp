@@ -1,6 +1,8 @@
 #include "Server.h"
 #include "ClientInfo.h"
+#include "AuthClient.h"
 
+using namespace std;
 int main(int argc, char** argv)
 {
 	_CrtDumpMemoryLeaks();
@@ -11,6 +13,13 @@ int main(int argc, char** argv)
 	HWND hConsole = GetConsoleWindow();
 	ShowWindow(hConsole, SW_SHOW);
 
+	cout << "Input AuthServer ipAddress> ";
+	string ipAddress = "";
+	cin >> ipAddress;
+
+	AuthClient client;
+	client.ConnectToServer(ipAddress.c_str());
+
 	Server server;
 	printf("Server Opening . . . \n");
 	int result = server.ServerOpen();
@@ -20,6 +29,8 @@ int main(int argc, char** argv)
 	if (result != 0)
 		return result;
 	printf("Server Opened.\n\n");
+
+	
 
 	server.Select();
 	server.Close();

@@ -11,7 +11,7 @@ private:
 	static ServerSendManager*	m_pInstance;
 
 private:
-	Server*						m_pServer;
+	Server*						m_pAuthClient;
 
 public:
 	explicit ServerSendManager();
@@ -20,7 +20,7 @@ public:
 	void DestroyInstance();
 
 public:
-	void SetServer(Server* pServer) { m_pServer = pServer; }
+	void SetServer(Server* pServer) { m_pAuthClient = pServer; }
 
 public:
 	void SendPacket(ClientInfo* pClient, char* data, int length);

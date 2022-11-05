@@ -13,6 +13,7 @@ private:
 	ServerInfo*				m_pServerInfo;
 	GLFWwindow*				m_pWindow;
 	GUIManager*				m_pGUIManager;
+
 public:
 	static SOCKET			m_socket;
 	unsigned int			m_id;

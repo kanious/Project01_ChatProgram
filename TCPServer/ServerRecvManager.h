@@ -11,7 +11,7 @@ private:
 	static ServerRecvManager*		m_pInstance;
 
 private:
-	Server*							m_pServer;
+	Server*							m_pAuthClient;
 	std::vector<uint8_t>			m_data;
 	bool							m_bNewPacket;
 	uint32_t						m_fullLength;
@@ -23,7 +23,7 @@ public:
 	void DestroyInstance();
 
 public:
-	void SetServer(Server* pServer) { m_pServer = pServer; }
+	void SetServer(Server* pServer) { m_pAuthClient = pServer; }
 
 public:
 	void DeserializePacket(char* rawData, int size, int rawIndex);

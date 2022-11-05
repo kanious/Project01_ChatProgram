@@ -20,7 +20,7 @@ Server::Server()
 	m_socketListen = INVALID_SOCKET;
 	FD_ZERO(&m_fdActive);
 	FD_ZERO(&m_fdRead);
-	m_listClients.clear();
+	m_listAuthClients.clear();
 
 	UserID = 1; // 0: system id
 }
@@ -70,7 +70,7 @@ int Server::MakeSystemChannel()
 void Server::DisconnectClient(unsigned int id)
 {
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		if ((*iter)->m_id == id)
 		{
@@ -171,7 +171,7 @@ void Server::Accept()
 			string name("Unknown_");
 			name.append(to_string(client->m_id));
 			client->m_name = name;
-			m_listClients.push_back(client);
+			m_listAuthClients.push_back(client);
 
 			ChannelManager::GetInstance()->JoinChannel(SYSTEM_CHANNEL, client);
 			ServerSendManager::GetInstance()->AcceptClient(client);
@@ -183,7 +183,7 @@ void Server::Accept()
 void Server::Recv()
 {
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		ClientInfo* client = *iter;
 		if (!client->m_bConnected)
@@ -214,9 +214,9 @@ void Server::Recv()
 
 void Server::RemoveDisconnectedClient()
 {
-	m_listClients.erase(
-		remove_if(m_listClients.begin(), m_listClients.end(), DisconnectFinder),
-		m_listClients.end());
+	m_listAuthClients.erase(
+		remove_if(m_listAuthClients.begin(), m_listAuthClients.end(), DisconnectFinder),
+		m_listAuthClients.end());
 }
 
 void Server::Select()
@@ -233,7 +233,7 @@ void Server::Select()
 		FD_SET(m_socketListen, &m_fdRead);
 
 		list<ClientInfo*>::iterator iter;
-		for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+		for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 		{
 			if ((*iter)->m_bConnected)
 				FD_SET((*iter)->m_socket, &m_fdRead);
@@ -245,7 +245,7 @@ void Server::Select()
 			printf("Select FAILED : %d\n", WSAGetLastError());
 			return;
 		}
-		printf("%u", (unsigned int)m_listClients.size());
+		printf("%u", (unsigned int)m_listAuthClients.size());
 
 		Accept();
 		Recv();
@@ -263,7 +263,7 @@ void Server::Close()
 	ChannelManager::GetInstance()->DestroyInstance();
 
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		if (nullptr != (*iter))
 		{
@@ -271,14 +271,14 @@ void Server::Close()
 			(*iter) = nullptr;
 		}
 	}
-	m_listClients.clear();
+	m_listAuthClients.clear();
 }
 
 string Server::GetClientName(unsigned int id)
 {
 	string str = "";
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		if ((*iter)->m_id == id)
 			str = (*iter)->m_name;
@@ -289,7 +289,7 @@ string Server::GetClientName(unsigned int id)
 ClientInfo* Server::GetClient(unsigned int id)
 {
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		if ((*iter)->m_id == id)
 			return *iter;
@@ -300,7 +300,7 @@ ClientInfo* Server::GetClient(unsigned int id)
 ClientInfo* Server::GetClient(std::string name)
 {
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_listClients.begin(); iter != m_listClients.end(); ++iter)
+	for (iter = m_listAuthClients.begin(); iter != m_listAuthClients.end(); ++iter)
 	{
 		if ((*iter)->m_name == name)
 			return *iter;

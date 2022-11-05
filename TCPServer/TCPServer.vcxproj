@@ -135,14 +135,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AuthServerInfo.cpp" />
     <ClCompile Include="ChannelManager.cpp" />
+    <ClCompile Include="AuthClient.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerMain.cpp" />
     <ClCompile Include="ServerRecvManager.cpp" />
     <ClCompile Include="ServerSendManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AuthServerInfo.h" />
     <ClInclude Include="ChannelManager.h" />
+    <ClInclude Include="AuthClient.h" />
     <ClInclude Include="ClientInfo.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Server.h" />

@@ -14,8 +14,9 @@ private:
 	fd_set						m_fdRead;
 
 	unsigned int				UserID;
+
 public:
-	std::list<ClientInfo*>		m_listClients;
+	std::list<ClientInfo*>		m_listAuthClients;
 
 public:
 	explicit Server();

@@ -91,7 +91,7 @@ int ServerInfo::CreateSocket()
 	m_pClient->m_socket = socket(m_info->ai_family, m_info->ai_socktype, m_info->ai_protocol);
 	if (m_pClient->m_socket == INVALID_SOCKET)
 	{
-		printf("Socket Create FAILED : %d\n", WSAGetLastError());
+		printf("FAILED : %d\n", WSAGetLastError());
 		freeaddrinfo(m_info);
 		WSACleanup();
 		return 1;
@@ -112,7 +112,7 @@ int ServerInfo::Connect()
 	int result = connect(m_pClient->m_socket, m_info->ai_addr, (int)m_info->ai_addrlen);
 	if (result == SOCKET_ERROR)
 	{
-		printf("Connect to server FAILED : %d\n", WSAGetLastError());
+		printf("FAILED : %d\n", WSAGetLastError());
 		closesocket(m_pClient->m_socket);
 		freeaddrinfo(m_info);
 		WSACleanup();
@@ -135,7 +135,7 @@ int ServerInfo::IOCTLsocket()
 	int result = ioctlsocket(m_pClient->m_socket, FIONBIO, &NonBlock);
 	if (result == SOCKET_ERROR)
 	{
-		printf("IOCTLsocket FAILED : %d\n", WSAGetLastError());
+		printf("FAILED : %d\n", WSAGetLastError());
 		closesocket(m_pClient->m_socket);
 		freeaddrinfo(m_info);
 		WSACleanup();

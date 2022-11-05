@@ -2,13 +2,14 @@
 #define _RESPONSEMESSAGE_H_
 
 #include "Packet.h"
+
 class PACKET_DLL pResponseMessage : public Packet
 {
 public:
-	unsigned int		clientId;
-	std::string			channelName;
-	std::string			clientName;
-	std::string			message;
+	unsigned int			clientId;
+	std::string				channelName;
+	std::string				clientName;
+	std::string				message;
 
 public:
 	explicit pResponseMessage();

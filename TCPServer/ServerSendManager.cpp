@@ -8,7 +8,7 @@ using namespace std;
 ServerSendManager* ServerSendManager::m_pInstance = nullptr;
 ServerSendManager::ServerSendManager()
 {
-	m_pServer = nullptr;
+	m_pAuthClient = nullptr;
 }
 
 ServerSendManager::~ServerSendManager()
@@ -83,7 +83,7 @@ void ServerSendManager::SendErrorMessageToClient(ClientInfo* pClient, string err
 
 void ServerSendManager::SendMessageToClient(ClientInfo* pClient, char* data, unsigned int length)
 {
-	if (nullptr == m_pServer)
+	if (nullptr == m_pAuthClient)
 		return;
 
 	pRequestMessage packet;
@@ -94,7 +94,7 @@ void ServerSendManager::SendMessageToClient(ClientInfo* pClient, char* data, uns
 	response.m_header.messageId = SEND_MSG;
 	response.clientId = packet.clientId;
 	response.channelName = packet.channelName;
-	response.clientName = m_pServer->GetClientName(packet.clientId);
+	response.clientName = m_pAuthClient->GetClientName(packet.clientId);
 	response.message = packet.message;
 	response.Serialize(buffer);
 
@@ -103,7 +103,7 @@ void ServerSendManager::SendMessageToClient(ClientInfo* pClient, char* data, uns
 
 void ServerSendManager::BroadcastMessageToClients(char* data, unsigned int length)
 {
-	if (nullptr == m_pServer)
+	if (nullptr == m_pAuthClient)
 		return;
 
 	pRequestMessage packet;
@@ -114,12 +114,12 @@ void ServerSendManager::BroadcastMessageToClients(char* data, unsigned int lengt
 	response.m_header.messageId = SEND_MSG;
 	response.clientId = packet.clientId;
 	response.channelName = packet.channelName;
-	response.clientName = m_pServer->GetClientName(packet.clientId);
+	response.clientName = m_pAuthClient->GetClientName(packet.clientId);
 	response.message = packet.message;
 	response.Serialize(buffer);
 
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_pServer->m_listClients.begin(); iter != m_pServer->m_listClients.end(); ++iter)
+	for (iter = m_pAuthClient->m_listAuthClients.begin(); iter != m_pAuthClient->m_listAuthClients.end(); ++iter)
 	{
 		ClientInfo* client = *iter;
 		if (!client->m_bConnected)
@@ -130,7 +130,7 @@ void ServerSendManager::BroadcastMessageToClients(char* data, unsigned int lengt
 
 void ServerSendManager::SendSystemMessageToClient(ClientInfo* pClient, string message)
 {
-	if (nullptr == m_pServer)
+	if (nullptr == m_pAuthClient)
 		return;
 
 	Buffer buffer(0);
@@ -155,7 +155,7 @@ void ServerSendManager::BroadcastChannelMakeMessage(string channelName)
 	response.Serialize(buffer);
 
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_pServer->m_listClients.begin(); iter != m_pServer->m_listClients.end(); ++iter)
+	for (iter = m_pAuthClient->m_listAuthClients.begin(); iter != m_pAuthClient->m_listAuthClients.end(); ++iter)
 	{
 		ClientInfo* client = *iter;
 		if (!client->m_bConnected)
@@ -198,7 +198,7 @@ void ServerSendManager::BroadcastChannelDeleteMessage(string channelName)
 	response.Serialize(buffer);
 
 	list<ClientInfo*>::iterator iter;
-	for (iter = m_pServer->m_listClients.begin(); iter != m_pServer->m_listClients.end(); ++iter)
+	for (iter = m_pAuthClient->m_listAuthClients.begin(); iter != m_pAuthClient->m_listAuthClients.end(); ++iter)
 	{
 		ClientInfo* client = *iter;
 		if (!client->m_bConnected)
@@ -219,7 +219,7 @@ void ServerSendManager::BroadcastChannelJoinMessage(std::string channelName)
 	list<string>::iterator iter;
 	for (iter = pInfo->listClient.begin(); iter != pInfo->listClient.end(); ++iter)
 	{
-		ClientInfo* client = m_pServer->GetClient(*iter);
+		ClientInfo* client = m_pAuthClient->GetClient(*iter);
 		if (nullptr != client)
 			SendPacket(client, (char*)&(buffer.m_data[0]), response.m_header.length);
 	}
@@ -237,7 +237,7 @@ void ServerSendManager::BroadcastChannelLeaveMessage(ClientInfo* pClient, std::s
 	list<string>::iterator iter;
 	for (iter = pInfo->listClient.begin(); iter != pInfo->listClient.end(); ++iter)
 	{
-		ClientInfo* client = m_pServer->GetClient(*iter);
+		ClientInfo* client = m_pAuthClient->GetClient(*iter);
 		if (nullptr != client)
 			SendPacket(client, (char*)&(buffer.m_data[0]), response.m_header.length);
 	}
@@ -265,7 +265,7 @@ void ServerSendManager::BroadcastChannelUpdateMessage(std::string channelName)
 	list<string>::iterator iter;
 	for (iter = pInfo->listClient.begin(); iter != pInfo->listClient.end(); ++iter)
 	{
-		ClientInfo* client = m_pServer->GetClient(*iter);
+		ClientInfo* client = m_pAuthClient->GetClient(*iter);
 		if (nullptr != client)
 		{
 			Buffer buffer(0);

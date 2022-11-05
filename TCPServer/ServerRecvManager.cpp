@@ -9,7 +9,7 @@ using namespace std;
 ServerRecvManager* ServerRecvManager::m_pInstance = nullptr;
 ServerRecvManager::ServerRecvManager()
 {
-	m_pServer = nullptr;
+	m_pAuthClient = nullptr;
 	m_data.clear();
 	m_bNewPacket = true;
 	m_fullLength = 0;
@@ -147,7 +147,7 @@ void ServerRecvManager::SendMessageRequest()
 		string err("Cannot find the channel (");
 		err.append(packet.channelName);
 		err.append(")");
-		ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+		ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 		ServerSendManager::GetInstance()->SendErrorMessageToClient(pClient, err);
 		return;
 	}
@@ -155,7 +155,7 @@ void ServerRecvManager::SendMessageRequest()
 	{
 		if (pChannel->name == SYSTEM_NAME)
 		{
-			ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+			ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 			ServerSendManager::GetInstance()->SendMessageToClient(pClient, (char*)&(m_data[0]), m_fullLength);
 			return;
 		}
@@ -173,12 +173,12 @@ void ServerRecvManager::MakeChannelRequest()
 		string err("[Error] Same channel name is already exist (");
 		err.append(packet.channelName);
 		err.append(")");
-		ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+		ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 		ServerSendManager::GetInstance()->SendErrorMessageToClient(pClient, err);
 
 		return;
 	}
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 	ChannelManager::GetInstance()->JoinChannel(packet.channelName, pClient);
 	ServerSendManager::GetInstance()->BroadcastChannelMakeMessage(packet.channelName);
 }
@@ -206,11 +206,11 @@ void ServerRecvManager::DeleteChannelRequest()
 		}
 		err.append(packet.channelName);
 		err.append(")");
-		ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+		ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 		ServerSendManager::GetInstance()->SendErrorMessageToClient(pClient, err);
 		return;
 	}
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 	ServerSendManager::GetInstance()->BroadcastChannelDeleteMessage(packet.channelName);
 }
 
@@ -218,7 +218,7 @@ void ServerRecvManager::JoinChannelRequest()
 {
 	pRequestChannel packet;
 	packet.Deserialize((char*)&(m_data[0]), m_fullLength);
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 	int result = ChannelManager::GetInstance()->JoinChannel(packet.channelName, pClient);
 	if (result != 0)
 	{
@@ -247,7 +247,7 @@ void ServerRecvManager::LeaveChannelRequest()
 {
 	pRequestChannel packet;
 	packet.Deserialize((char*)&(m_data[0]), m_fullLength);
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 	int result = ChannelManager::GetInstance()->LeaveChannel(packet.channelName, pClient->m_name);
 	if (result != 0)
 	{
@@ -276,13 +276,13 @@ void ServerRecvManager::DisconnectRequest()
 {
 	pRequestDisconnect packet;
 	packet.Deserialize((char*)&(m_data[0]), m_fullLength);
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 
 	vector<ChannelInfo> list;
 	ChannelManager::GetInstance()->DisconnectUserFromAllChannnel(pClient->m_name, list);
 
-	if (nullptr != m_pServer)
-		m_pServer->DisconnectClient(packet.clientId);
+	if (nullptr != m_pAuthClient)
+		m_pAuthClient->DisconnectClient(packet.clientId);
 
 	ServerSendManager::GetInstance()->SendDisconnectResponse(pClient);
 
@@ -294,7 +294,7 @@ void ServerRecvManager::ChangeNameRequest()
 {
 	pRequestChangeName packet;
 	packet.Deserialize((char*)&(m_data[0]), m_fullLength);
-	ClientInfo* pClient = m_pServer->GetClient(packet.clientId);
+	ClientInfo* pClient = m_pAuthClient->GetClient(packet.clientId);
 	vector<ChannelInfo> list;
 	ChannelManager::GetInstance()->ChangeNameFromAllChannel(pClient->m_name, packet.changeName, list);
 	pClient->m_name = packet.changeName;
